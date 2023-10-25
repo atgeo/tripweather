@@ -53,6 +53,10 @@ exports.login = async (req, res) => {
       expiresIn: '1h',
     })
 
+    user.lastLogin = new Date()
+
+    await user.save()
+
     res.status(200).json({ token });
   } catch (error) {
     console.error(error)

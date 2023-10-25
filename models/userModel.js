@@ -28,6 +28,9 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  lastLogin: {
+    type: Date,
+  },
 })
 
 userSchema.pre('save', async function (next) {

@@ -1,7 +1,6 @@
 //const passport = require('passport')
 //const LocalStrategy = require('passport-local').Strategy
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
 const User = require('../models/userModel')
 require('dotenv').config()
 
@@ -43,7 +42,7 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: 'Authentication failed' })
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password)
+    const isPasswordValid = await user.isPasswordValid(password);
 
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Authentication failed' })

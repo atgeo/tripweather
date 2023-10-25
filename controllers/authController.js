@@ -7,7 +7,7 @@ require('dotenv').config()
 
 exports.register = async (req, res) => {
   try {
-    const {email, password, firstName, lastName} = req.body
+    const {email, password, firstName, lastName, dateOfBirth} = req.body
 
     const existingUser = await User.findOne({email})
 
@@ -20,6 +20,7 @@ exports.register = async (req, res) => {
       password,
       firstName,
       lastName,
+      dateOfBirth,
     })
 
     await newUser.save()

@@ -20,9 +20,17 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-});
+  dateOfBirth: {
+    type: Date,
+    set: date => new Date(`${date}Z`),
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+})
 
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   try {
     if (!this.isModified('password')) {
       return next()

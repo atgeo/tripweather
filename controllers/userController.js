@@ -1,7 +1,18 @@
+const _ = require('lodash')
 const User = require('../models/userModel')
 
 exports.getUserProfile = (req, res) => {
-  const user = req.user // User information from the middleware
+  const user = req.user
 
-  res.status(200).json(user)
+  const propertiesToInclude = [
+    'email',
+    'firstName',
+    'lastName',
+    'dateOfBirth',
+    'createdAt',
+  ]
+
+  const responseData = _.pick(user, propertiesToInclude)
+
+  res.status(200).json(responseData)
 }

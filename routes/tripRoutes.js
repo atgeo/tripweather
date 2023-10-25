@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const userController = require('../controllers/userController')
+const tripController = require('../controllers/tripController')
 const authMiddleware = require('../middlewares/authMiddleware')
 
 router.use(authMiddleware.verifyToken)
 
-router.get('/profile', userController.getUserProfile)
-//router.put('/profile', userController.updateUserProfile)
+router.post('/add', tripController.add)
+
+router.get('/my-trips', tripController.viewMyTrips)
 
 module.exports = router

@@ -18,9 +18,11 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 const authRoutes = require('./routes/authRoutes')
 const userRoutes = require('./routes/userRoutes')
+const tripRoutes = require('./routes/tripRoutes')
 
 app.use('/auth', authRoutes)
 app.use('/user', userRoutes)
+app.use('/trip', tripRoutes)
 
 const port = process.env.PORT || 3000
 

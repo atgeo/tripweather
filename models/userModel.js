@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
   },
   dateOfBirth: {
     type: Date,
-    set: date => new Date(`${date}Z`),
+    required: true,
   },
   createdAt: {
     type: Date,

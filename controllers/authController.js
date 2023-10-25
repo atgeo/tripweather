@@ -40,7 +40,7 @@ exports.login = async (req, res) => {
     const user = await User.findOne({ email })
 
     if (!user) {
-      return res.status(401).json({ message: 'Authentication failed' });
+      return res.status(401).json({ message: 'Authentication failed' })
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password)

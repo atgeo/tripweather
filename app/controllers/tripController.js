@@ -1,4 +1,7 @@
+const WeatherQueueService = require('../services/weatherQueueService')
 const Trip = require('../models/tripModel')
+
+const weatherQueueService = new WeatherQueueService();
 
 exports.add = async (req, res) => {
   try {
@@ -15,7 +18,7 @@ exports.add = async (req, res) => {
 
     await newTrip.save()
 
-    // add job
+    weatherQueueService.weatherQueue.add('fetchWeatherData', { tripId: newTrip._id })
 
     return res.status(201).json({ message: 'Trip added successfully'})
   } catch (error) {

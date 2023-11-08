@@ -1,5 +1,20 @@
 const mongoose = require('mongoose')
 
+const forecastSchema = new mongoose.Schema({
+  date: {
+    type: Date,
+    required: true,
+  },
+  condition: {
+    type: String,
+    required: true,
+  },
+  temperature: {
+    type: Number,
+    required: true,
+  },
+})
+
 const tripSchema = new mongoose.Schema({
   city: {
     type: String,
@@ -22,6 +37,7 @@ const tripSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.Boolean,
     default: false,
   },
+  forecasts: [forecastSchema]
 }, {
   timestamps: true,
 })

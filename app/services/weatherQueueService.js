@@ -1,5 +1,6 @@
 const Queue = require('bull')
 const Trip = require('../models/tripModel')
+const weather = require('weather-js')
 
 class WeatherQueueService {
   constructor () {
@@ -18,11 +19,35 @@ class WeatherQueueService {
 
     const trip = await Trip.findById(tripId)
 
-    // Fetch weather data and update the trip document
+    weather.find({search: trip.city, degreeType: 'C'}, function (err, result) {
+      if (err) console.log(err)
 
-    trip.isProcessed = true
+      const forecast = result[0]['forecast']
 
-    await trip.save()
+      const currentDate = new Date(trip.fromDate)
+
+      const forecastsToAdd = []
+
+      while (currentDate <= trip.toDate) {
+        const date = currentDate.toISOString().slice(0, 10)
+        const forecastData = forecast.find(item => item.date === date)
+
+        forecastsToAdd.push(
+          {
+            date,
+            condition: forecastData.skytextday,
+            temperature: forecastData.high,
+          },
+        )
+
+        currentDate.setDate(currentDate.getDate() + 1)
+      }
+
+      trip.forecasts = trip.forecasts.concat(forecastsToAdd)
+      trip.isProcessed = true
+
+      trip.save()
+    })
   }
 }
 

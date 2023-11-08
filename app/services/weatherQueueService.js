@@ -1,15 +1,14 @@
 const Queue = require('bull')
-const Redis = require('ioredis')
 const Trip = require('../models/tripModel')
 
 class WeatherQueueService {
   constructor () {
-    this.redis = new Redis({
-      host: 'redis',
-      port: 6379,
+    this.weatherQueue = new Queue('weatherQueue', {
+      redis: {
+        host: 'redis',
+        port: 6379,
+      },
     })
-
-    this.weatherQueue = new Queue('weatherQueue', { redis: this.redis })
 
     this.weatherQueue.process('fetchWeatherData', this.fetchWeatherDataHandler)
   }
@@ -19,15 +18,11 @@ class WeatherQueueService {
 
     const trip = await Trip.findById(tripId)
 
-    trip.processed = true
+    // Fetch weather data and update the trip document
+
+    trip.isProcessed = true
 
     await trip.save()
-
-    setTimeout(() => {
-      console.log(tripId)
-    }, 5000)
-
-    // Fetch weather data and update the trip document
   }
 }
 

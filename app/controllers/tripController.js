@@ -21,9 +21,9 @@ exports.add = async (req, res) => {
     weatherQueueService.weatherQueue.add('fetchWeatherData', { tripId: newTrip._id })
       .then(job => {
         if (job) {
-          console.log('Job added to queue with ID:', job.id);
+          console.log('Job added to queue with ID:', job.id)
         } else {
-          console.error('Failed to add job to queue.');
+          console.error('Failed to add job to queue.')
         }
     }).catch(error => {
       console.error('Error adding job to queue:', error)

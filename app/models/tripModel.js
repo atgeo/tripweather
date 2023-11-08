@@ -18,10 +18,12 @@ const tripSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
+  isProcessed: {
+    type: mongoose.Schema.Types.Boolean,
+    default: false,
   },
+}, {
+  timestamps: true,
 })
 
 const Trip = mongoose.model('Trip', tripSchema)

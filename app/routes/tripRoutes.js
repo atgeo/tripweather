@@ -7,6 +7,8 @@ router.use(authMiddleware.verifyToken)
 
 router.post('/add', tripController.add)
 
+router.put('/update/:tripId', tripController.update)
+
 router.get('/my-trips', tripController.viewMyTrips)
 
 module.exports = router

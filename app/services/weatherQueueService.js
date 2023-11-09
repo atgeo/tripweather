@@ -43,7 +43,7 @@ class WeatherQueueService {
         currentDate.setDate(currentDate.getDate() + 1)
       }
 
-      trip.forecasts = trip.forecasts.concat(forecastsToAdd)
+      trip.forecasts = forecastsToAdd
       trip.isProcessed = true
 
       trip.save()

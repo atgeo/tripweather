@@ -1,5 +1,5 @@
 {
-  "name": "wahapi",
+  "name": "tripweather",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -8,7 +8,7 @@
     "test": "mocha --recursive"
   },
   "keywords": [],
-  "author": "",
+  "author": "Georges Kmeid <georgesk117@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",

@@ -1,7 +1,7 @@
-const chai = require('chai')
+const { expect } = require('chai')
 const supertest = require('supertest')
+const app = require('../index')
 
-const { expect } = chai
 const request = supertest(app)
 
 describe('User Registration API', () => {
@@ -17,12 +17,10 @@ describe('User Registration API', () => {
     })
     .set('Accept', 'application/json')
     .expect('Content-Type', /json/)
-    .expect(201);
+    .expect(201)
 
-    // Add more assertions based on your registration response format
-    expect(response.body).to.have.property('message').equal('User registered successfully');
-    expect(response.body).to.have.property('user');
-    // Add more assertions as needed
+    expect(response.body).to.have.property('message').equal('User registered successfully')
+    expect(response.body).to.have.property('user')
   })
 
   // Add more test cases as needed

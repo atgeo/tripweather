@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "devStart": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --recursive"
   },
   "keywords": [],
   "author": "",
@@ -20,7 +20,11 @@
     "weather-js": "^2.0.0"
   },
   "devDependencies": {
+    "chai": "^4.3.10",
     "dotenv": "^16.3.1",
-    "nodemon": "^3.0.1"
+    "mocha": "^10.2.0",
+    "mongodb-memory-server": "^9.0.1",
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3"
   }
 }

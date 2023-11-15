@@ -6,6 +6,6 @@
     "mocha": true
   },
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": 2020
   }
 }

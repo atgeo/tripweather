@@ -1,5 +1,4 @@
 const _ = require('lodash')
-const User = require('../models/userModel')
 
 exports.getUserProfile = (req, res) => {
   const user = req.user

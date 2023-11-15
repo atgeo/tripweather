@@ -1,7 +1,26 @@
 process.env.NODE_ENV = 'test'
-process.env.MONGODB_URI = 'mongodb://mongodb/tripweather-test'
-process.env.PORT = '8081'
 
-const app = require('../server')
+const mongoose = require('mongoose')
+const { MongoMemoryServer } = require('mongodb-memory-server')
 
-module.exports = app
+let mongod
+
+const dbConnect = async () => {
+  mongod = await MongoMemoryServer.create()
+  const uri = mongod.getUri()
+
+  const mongooseOpts = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+
+  await mongoose.connect(uri, mongooseOpts)
+};
+
+const dbDisconnect = async () => {
+  await mongoose.connection.dropDatabase()
+  await mongoose.connection.close()
+  await mongod.stop()
+}
+
+module.exports = {dbConnect, dbDisconnect}

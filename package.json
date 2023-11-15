@@ -6,7 +6,8 @@
   "scripts": {
     "devStart": "nodemon server.js",
     "test": "mocha --recursive",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "eslint --ignore-path .gitignore ."
   },
   "keywords": [],
   "author": "Georges Kmeid <georgesk117@gmail.com>",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "chai": "^4.3.10",
     "dotenv": "^16.3.1",
+    "eslint": "^8.53.0",
     "husky": "^8.0.3",
     "mocha": "^10.2.0",
     "mongodb-memory-server": "^9.0.1",

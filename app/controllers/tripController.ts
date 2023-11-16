@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 const WeatherQueueService = require('../services/weatherQueueService')
-const Trip = require('../models/tripModel')
+import Trip from '../models/tripModel'
 
 const weatherQueueService = new WeatherQueueService()
 
@@ -66,7 +66,7 @@ export const update = async (req: Request, res: Response) => {
 
     const updatedTrip = await Trip.findByIdAndUpdate(tripId, updateObject, { new: true })
 
-    if (existingTrip.city !== updatedTrip.city) {
+    if (updatedTrip && existingTrip.city !== updatedTrip.city) {
       weatherQueueService.weatherQueue.add('fetchWeatherData', { tripId })
         .then((job: { id: any }) => {
           if (job) {

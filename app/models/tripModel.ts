@@ -59,4 +59,4 @@ const tripSchema = new Schema<Trip>({
 
 const TripModel = model<Trip>('Trip', tripSchema)
 
-module.exports = TripModel
+export default TripModel

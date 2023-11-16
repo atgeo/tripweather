@@ -1,10 +1,12 @@
-const Queue = require('bull')
-const Trip = require('../models/tripModel')
+import Bull, {Queue, Job} from 'bull'
+import TripModel from '../models/tripModel'
 const weather = require('weather-js')
 
 class WeatherQueueService {
+  private weatherQueue: Queue
+
   constructor () {
-    this.weatherQueue = new Queue('weatherQueue', {
+    this.weatherQueue = new Bull('weatherQueue', {
       redis: {
         host: 'redis',
         port: 6379,
@@ -14,12 +16,18 @@ class WeatherQueueService {
     this.weatherQueue.process('fetchWeatherData', this.fetchWeatherDataHandler)
   }
 
-  async fetchWeatherDataHandler(job) {
+  async fetchWeatherDataHandler(job: Job) {
     const tripId = job.data.tripId
 
-    const trip = await Trip.findById(tripId)
+    const trip = await TripModel.findById(tripId)
 
-    weather.find({search: trip.city, degreeType: 'C'}, function (err, result) {
+    if (!trip) {
+      console.error(`Trip with id ${tripId} not found`)
+      return
+    }
+
+    //todo fix result type of weather-js
+    weather.find({search: trip.city, degreeType: 'C'}, function (err: Error, result: any) {
       if (err) console.log(err)
 
       const forecast = result[0]['forecast']
@@ -30,7 +38,7 @@ class WeatherQueueService {
 
       while (currentDate <= trip.toDate) {
         const date = currentDate.toISOString().slice(0, 10)
-        const forecastData = forecast.find(item => item.date === date)
+        const forecastData = forecast.find((item: any) => item.date === date)
 
         forecastsToAdd.push(
           {
@@ -43,6 +51,7 @@ class WeatherQueueService {
         currentDate.setDate(currentDate.getDate() + 1)
       }
 
+      // @ts-ignore
       trip.forecasts = forecastsToAdd
       trip.isProcessed = true
 

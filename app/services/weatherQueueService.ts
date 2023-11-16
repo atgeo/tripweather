@@ -1,6 +1,6 @@
 import Bull, {Queue, Job} from 'bull'
 import TripModel from '../models/tripModel'
-const weather = require('weather-js')
+import weather from 'weather-js'
 
 class WeatherQueueService {
   private weatherQueue: Queue

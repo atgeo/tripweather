@@ -1,19 +1,19 @@
-import { Document, model, Schema } from 'mongoose'
-import bcrypt from 'bcrypt'
-import { config } from 'dotenv'
+import { Document, model, Schema } from "mongoose";
+import bcrypt from "bcrypt";
+import { config } from "dotenv";
 
-config()
+config();
 
 interface User extends Document {
-  email: string
-  password: string
-  firstName: string
-  lastName: string
-  dateOfBirth: Date
-  createdAt: Date
-  lastLogin: Date
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: Date;
+  createdAt: Date;
+  lastLogin: Date;
 
-  isPasswordValid(candidatePassword: string): Promise<boolean>
+  isPasswordValid(candidatePassword: string): Promise<boolean>;
 }
 
 const userSchema = new Schema<User>({
@@ -45,26 +45,31 @@ const userSchema = new Schema<User>({
   lastLogin: {
     type: Date,
   },
-})
+});
 
-userSchema.pre('save', async function (next) {
+userSchema.pre("save", async function (next) {
   try {
-    if (!this.isModified('password')) {
-      return next()
+    if (!this.isModified("password")) {
+      return next();
     }
 
-    this.password = await bcrypt.hash(this.password, parseInt(process.env.SALT_ROUNDS || '10'))
+    this.password = await bcrypt.hash(
+      this.password,
+      parseInt(process.env.SALT_ROUNDS || "10"),
+    );
 
-    return next()
+    return next();
   } catch (error: any) {
-    return next(error)
+    return next(error);
   }
-})
+});
 
-userSchema.methods.isPasswordValid = async function (candidatePassword: string) {
-  return await bcrypt.compare(candidatePassword, this.password)
-}
+userSchema.methods.isPasswordValid = async function (
+  candidatePassword: string,
+) {
+  return await bcrypt.compare(candidatePassword, this.password);
+};
 
-const UserModel = model<User>('User', userSchema)
+const UserModel = model<User>("User", userSchema);
 
-export default UserModel
+export default UserModel;

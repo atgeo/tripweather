@@ -1,14 +1,14 @@
-import express from 'express'
-const router = express.Router()
-import * as tripController from '../controllers/tripController'
-import {verifyToken} from '../middlewares/authMiddleware'
+import express from "express";
+const router = express.Router();
+import * as tripController from "../controllers/tripController";
+import { verifyToken } from "../middlewares/authMiddleware";
 
-router.use(verifyToken)
+router.use(verifyToken);
 
-router.post('/add', tripController.add)
+router.post("/add", tripController.add);
 
-router.put('/update/:tripId', tripController.update)
+router.put("/update/:tripId", tripController.update);
 
-router.get('/my-trips', tripController.viewMyTrips)
+router.get("/my-trips", tripController.viewMyTrips);
 
-export default router
+export default router;

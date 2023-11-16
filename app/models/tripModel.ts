@@ -1,9 +1,9 @@
-import mongoose, { Document, model, Schema } from 'mongoose'
+import mongoose, { Document, model, Schema } from "mongoose";
 
 interface Forecast extends Document {
-  date: Date
-  condition: string
-  temperature: number
+  date: Date;
+  condition: string;
+  temperature: number;
 }
 
 const forecastSchema = new Schema<Forecast>({
@@ -19,44 +19,47 @@ const forecastSchema = new Schema<Forecast>({
     type: Number,
     required: true,
   },
-})
+});
 
 interface Trip extends Document {
-  city: string
-  fromDate: Date
-  toDate: Date,
-  userId: Schema.Types.ObjectId
-  isProcessed: boolean
-  forecasts: [Forecast]
+  city: string;
+  fromDate: Date;
+  toDate: Date;
+  userId: Schema.Types.ObjectId;
+  isProcessed: boolean;
+  forecasts: [Forecast];
 }
 
-const tripSchema = new Schema<Trip>({
-  city: {
-    type: String,
-    required: true,
+const tripSchema = new Schema<Trip>(
+  {
+    city: {
+      type: String,
+      required: true,
+    },
+    fromDate: {
+      type: Date,
+      required: true,
+    },
+    toDate: {
+      type: Date,
+      required: true,
+    },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    isProcessed: {
+      type: Boolean,
+      default: false,
+    },
+    forecasts: [forecastSchema],
   },
-  fromDate: {
-    type: Date,
-    required: true,
+  {
+    timestamps: true,
   },
-  toDate: {
-    type: Date,
-    required: true,
-  },
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  isProcessed: {
-    type: Boolean,
-    default: false,
-  },
-  forecasts: [forecastSchema],
-}, {
-  timestamps: true,
-})
+);
 
-const TripModel = model<Trip>('Trip', tripSchema)
+const TripModel = model<Trip>("Trip", tripSchema);
 
-export default TripModel
+export default TripModel;

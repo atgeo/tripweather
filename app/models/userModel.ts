@@ -1,6 +1,8 @@
 import { Document, model, Schema } from 'mongoose'
 import bcrypt from 'bcrypt'
-require('dotenv').config()
+import { config } from 'dotenv'
+
+config()
 
 interface User extends Document {
   email: string

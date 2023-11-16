@@ -1,7 +1,9 @@
 import express from 'express'
 const app = express()
 import mongoose from 'mongoose'
-require('dotenv').config()
+import { config } from 'dotenv'
+
+config()
 
 app.use(express.json())
 

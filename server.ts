@@ -13,9 +13,9 @@ mongoose.connect(process.env.MONGODB_URI, {
     .then(() => console.log('Connected to MongoDB'))
     .catch((err: any) => console.error('Error connecting to MongoDB:', err))
 
-const authRoutes = require('./app/routes/authRoutes')
-const userRoutes = require('./app/routes/userRoutes')
-const tripRoutes = require('./app/routes/tripRoutes')
+import authRoutes from './app/routes/authRoutes'
+import userRoutes from './app/routes/userRoutes'
+import tripRoutes from './app/routes/tripRoutes'
 
 app.use('/auth', authRoutes)
 app.use('/user', userRoutes)

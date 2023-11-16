@@ -1,9 +1,14 @@
+import { Request, Response } from 'express'
 const WeatherQueueService = require('../services/weatherQueueService')
 const Trip = require('../models/tripModel')
 
 const weatherQueueService = new WeatherQueueService()
 
-exports.add = async (req, res) => {
+interface TripRequest extends Request {
+  user?: any
+}
+
+export const add = async (req: TripRequest, res: Response) => {
   try {
     const user = req.user
 
@@ -19,23 +24,23 @@ exports.add = async (req, res) => {
     await newTrip.save()
 
     weatherQueueService.weatherQueue.add('fetchWeatherData', { tripId: newTrip._id })
-      .then(job => {
+      .then((job: { id: any }) => {
         if (job) {
           console.log('Job added to queue with ID:', job.id)
         } else {
           console.error('Failed to add job to queue.')
         }
-    }).catch(error => {
+    }).catch((error: any) => {
       console.error('Error adding job to queue:', error)
     })
 
     return res.status(201).json({ message: 'Trip added successfully'})
-  } catch (error) {
+  } catch (error: any) {
     return res.status(500).json({ message: 'An error occurred', error: error.message })
   }
 }
 
-exports.update = async (req, res) => {
+export const update = async (req: Request, res: Response) => {
   const tripId = req.params.tripId
   const updatedData = req.body
   const allowedFields = ['city', 'fromDate', 'toDate']
@@ -63,29 +68,29 @@ exports.update = async (req, res) => {
 
     if (existingTrip.city !== updatedTrip.city) {
       weatherQueueService.weatherQueue.add('fetchWeatherData', { tripId })
-        .then(job => {
+        .then((job: { id: any }) => {
           if (job) {
             console.log('Job added to queue with ID:', job.id)
           } else {
             console.error('Failed to add job to queue.')
           }
-        }).catch(error => {
+        }).catch((error: any) => {
           console.error('Error adding job to queue:', error)
         })
     }
 
     res.json(updatedTrip)
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ message: 'An error occurred', error: error.message })
   }
 }
 
-exports.viewMyTrips = async (req, res) => {
+export const viewMyTrips = async (req: TripRequest, res: Response) => {
   try {
     const trips = await Trip.find({ userId: req.user._id })
 
     res.status(200).json(trips)
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({ message: 'An error occurred', error: error.message })
   }
 }

@@ -1,6 +1,11 @@
-const _ = require('lodash')
+import _ from 'lodash'
+import { Request, Response } from 'express'
 
-exports.getUserProfile = (req, res) => {
+interface UserRequest extends Request {
+  user?: any
+}
+
+export const getUserProfile = (req: UserRequest, res: Response) => {
   const user = req.user
 
   const propertiesToInclude = [

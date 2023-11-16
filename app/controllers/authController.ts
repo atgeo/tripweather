@@ -1,10 +1,11 @@
-//const passport = require('passport')
-//const LocalStrategy = require('passport-local').Strategy
-const jwt = require('jsonwebtoken')
-const User = require('../models/userModel')
-require('dotenv').config()
+import { Request, Response } from 'express'
+import jwt from 'jsonwebtoken'
+import User from '../models/userModel'
+import { config } from 'dotenv'
 
-exports.register = async (req, res) => {
+config()
+
+export const register = async (req: Request, res: Response): Promise<any> => {
   try {
     const { email, password, firstName, lastName, dateOfBirth } = req.body
 
@@ -31,7 +32,7 @@ exports.register = async (req, res) => {
   }
 }
 
-exports.login = async (req, res) => {
+export const login = async (req: any, res: any) => {
   const { email, password } = req.body;
 
   try {
@@ -48,7 +49,9 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: 'Authentication failed' })
     }
 
-    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, {
+    const jwtSecret = process.env.JWT_SECRET || ''
+
+    const token = jwt.sign({ userId: user._id, email: user.email }, jwtSecret, {
       expiresIn: '1h',
     })
 

@@ -1,8 +1,20 @@
-const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
+import { Document, model, Schema } from 'mongoose'
+import bcrypt from 'bcrypt'
 require('dotenv').config()
 
-const userSchema = new mongoose.Schema({
+interface User extends Document {
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+  dateOfBirth: Date
+  createdAt: Date
+  lastLogin: Date
+
+  isPasswordValid(candidatePassword: string): Promise<boolean>
+}
+
+const userSchema = new Schema<User>({
   email: {
     type: String,
     required: true,
@@ -39,18 +51,18 @@ userSchema.pre('save', async function (next) {
       return next()
     }
 
-    this.password = await bcrypt.hash(this.password, parseInt(process.env.SALT_ROUNDS))
+    this.password = await bcrypt.hash(this.password, parseInt(process.env.SALT_ROUNDS || '10'))
 
     return next()
-  } catch (error) {
+  } catch (error: any) {
     return next(error)
   }
 })
 
-userSchema.methods.isPasswordValid = async function (candidatePassword) {
+userSchema.methods.isPasswordValid = async function (candidatePassword: string) {
   return await bcrypt.compare(candidatePassword, this.password)
 }
 
-const User = mongoose.model('User', userSchema)
+const UserModel = model<User>('User', userSchema)
 
-module.exports = User
+export default UserModel

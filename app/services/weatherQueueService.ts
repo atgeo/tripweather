@@ -2,8 +2,8 @@ import Bull, {Queue, Job} from 'bull'
 import TripModel from '../models/tripModel'
 import weather from 'weather-js'
 
-class WeatherQueueService {
-  private weatherQueue: Queue
+export default class WeatherQueueService {
+  public weatherQueue: Queue
 
   constructor () {
     this.weatherQueue = new Bull('weatherQueue', {
@@ -59,5 +59,3 @@ class WeatherQueueService {
     })
   }
 }
-
-module.exports = WeatherQueueService

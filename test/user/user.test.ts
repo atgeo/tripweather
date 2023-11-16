@@ -1,5 +1,5 @@
 import User from '../../app/models/userModel'
-import { MongoError } from 'mongodb'
+import {MongoError} from 'mongodb'
 import {expect} from 'chai'
 import {dbConnect, dbDisconnect} from '../index'
 

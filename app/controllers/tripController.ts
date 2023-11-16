@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-const WeatherQueueService = require('../services/weatherQueueService')
+import WeatherQueueService from '../services/weatherQueueService'
 import Trip from '../models/tripModel'
 
 const weatherQueueService = new WeatherQueueService()
@@ -12,7 +12,7 @@ export const add = async (req: TripRequest, res: Response) => {
   try {
     const user = req.user
 
-    const { city, fromDate, toDate } = req.body
+    const {city, fromDate, toDate} = req.body
 
     const newTrip = new Trip({
       city,

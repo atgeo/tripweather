@@ -7,7 +7,7 @@ describe("User Model Test Suite", () => {
   before(async () => dbConnect());
   after(async () => dbDisconnect());
 
-  it("should validate saving a new student user successfully", async () => {
+  it("should validate saving a new user user successfully", async () => {
     const validUser = new User({
       email: "test@email.com",
       firstName: "First",
